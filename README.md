@@ -9,7 +9,7 @@ A PID regulator is to be implemented on the microcontroller for calculating the 
 In short this is a kickass project with many interesting parts.
 
 ###Bits and pieces
-[Arduino DUE](http://example.net/)  
+[Arduino DUE](http://arduino.cc/en/Main/arduinoBoardDue)  
 [Pololu JRK 12v12](http://www.pololu.com/product/1393)  
 More is still to come
 
