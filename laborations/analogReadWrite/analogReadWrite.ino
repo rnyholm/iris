@@ -58,8 +58,8 @@ void readStickInput()
   stickReadingsAverage = stickReadingsTotal / NUM_READINGS;
   analogWrite(MOTOR_CONTROLLER_PIN, stickReadingsAverage);
 
-  //Serial.print("12-bit PWM value: ");
-  //Serial.println(stickReadingsAverage);
+  Serial.print("12-bit PWM value: ");
+  Serial.println(stickReadingsAverage);
 
   // Increase the index and if needed reset it
   stickReadingsIndex += 1;
@@ -80,8 +80,8 @@ void readServoFeedback()
   // Calculate an average value for the readings and write it to ppin
   feedbackReadingsAverage = feedbackReadingsTotal / NUM_READINGS;
 
-  Serial.print("Servo feedback: ");
-  Serial.println(scaleFeedback(feedbackReadingsAverage));
+  //Serial.print("Servo feedback: ");
+  //Serial.println(scaleFeedback(feedbackReadingsAverage));
 
   // Increase the index and if needed reset it
   feedbackReadingsIndex += 1;
