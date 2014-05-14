@@ -11,6 +11,8 @@ In short this is a kickass project with many interesting parts.
 ###Bits and pieces
 [Arduino DUE](http://arduino.cc/en/Main/arduinoBoardDue)  
 [Pololu JRK 12v12](http://www.pololu.com/product/1393)  
+[Adafruit Ultimate GPS Breakout](http://www.adafruit.com/products/746)  
+[LA-DW-12V 350N 250mm stroke](http://www.actuatorlinear.com/index.php?_m=mod_product&_a=view&p_id=238)  
 More is still to come
 
 ###At last
