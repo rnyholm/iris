@@ -1,11 +1,14 @@
 #include "JOYSTICK_READ_A0.h"
+#include "IrisCore.h"
 
 JOYSTICK_READ_A0 joystick;
+IrisCore irisCore;
 
-void setup() {
-  Serial.begin(9600);
+void setup()
+{
 }
 
-void loop() {
-  Serial.println(joystick.getReading());
+void loop()
+{
+  irisCore.debug(joystick.getReading());
 }
