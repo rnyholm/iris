@@ -1,25 +1,47 @@
+/* 
+ File.......: OverrideHandler.h
+ Author.....: Robert Nyholm <robert.nyholm@aland.net>
+ Date.......: May 17, 2014
+ Description: Library for handling the reading from specified input pin.
+              This value is then supposed to be used for manual override
+              of the linear actuator, if possible.
+*/
 #include <Arduino.h>
 #include "OverrideHandler.h"
 
-OverrideHandler::OverrideHandler(int pinInput, int pinEnable)
+/* 
+ Creates a new OverridHandler object.
+ Param: pinInput - pin to read analog input from.
+ Param: pinOverrideable - pin from which if set HIGH this object is overrideable.
+*/
+OverrideHandler::OverrideHandler(int pinInput, int pinOverrideable)
 {
+  // Store pins to be used as overrideable and input pins
   _pinInput = pinInput;
-  _pinEnable = pinEnable; 
+  _pinOverrideable = pinOverrideable; 
 
+  // Set pins and A/D resolution
   analogReadResolution(RESOLUTION_READ);
-  pinMode(_pinEnable, INPUT);
+  pinMode(_pinOverrideable, INPUT);
 
+  // Reset some values
   _readingsIndex = 0;
   _readingsTotal = 0;
   _readingsAverage = 0;  
 
+  // Make sure that the readings array is cleared out to avoid miss calulations
   for (int i = 0; i < NUM_READINGS; i++) {
     _readings[i] = 0;
   }
 }
 
+/*
+ To get the averaged, override A/D value.
+ Return Averaged A/D value if this object is overrideable, else -1.
+*/
 int OverrideHandler::getOverrideValue()
 {
+  // Only get and calculate A/D reading if this object is overrideable, takes away some unnecessary from the microcontroller
   if (isOverrideable() == 1) {
     // Remove the last reading
     _readingsTotal -= _readings[_readingsIndex];
@@ -45,7 +67,11 @@ int OverrideHandler::getOverrideValue()
   return -1;
 }
 
+/*
+ To figure out if this object is overrideable.
+ Return 1 if overrideable else 0.
+*/
 int OverrideHandler::isOverrideable()
 {
-  return digitalRead(_pinEnable) == HIGH ? 1 : 0;
+  return digitalRead(_pinOverrideable) == HIGH ? 1 : 0;
 }
