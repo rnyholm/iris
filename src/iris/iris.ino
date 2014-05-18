@@ -1,7 +1,7 @@
-#include "JOYSTICK_READ_A0.h"
 #include "IrisCore.h"
+#include "OverrideHandler.h"
 
-JOYSTICK_READ_A0 joystick;
+OverrideHandler overrideHandler(A0, 2);
 IrisCore irisCore;
 
 void setup()
@@ -10,5 +10,5 @@ void setup()
 
 void loop()
 {
-  irisCore.debug(joystick.getReading());
+  overrideHandler.getOverrideValue();
 }
