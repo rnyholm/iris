@@ -1,10 +1,10 @@
 /* 
- File.......: IrisCore.h
- Author.....: Robert Nyholm <robert.nyholm@aland.net>
- Date.......: May 17, 2014
- Description: Library holding definitions, classes and other
-              functionality shared within the components of application Iris.
-*/
+ * File.......: IrisCore.h
+ * Author.....: Robert Nyholm <robert.nyholm@aland.net>
+ * Date.......: May 17, 2014
+ * Description: Library holding definitions, classes and other
+ *              functionality shared within the components of application Iris.
+ */
 #ifndef IRIS_CORE_H_
 #define IRIS_CORE_H_
 

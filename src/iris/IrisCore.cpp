@@ -1,10 +1,10 @@
 /* 
- File.......: IrisCore.cpp
- Author.....: Robert Nyholm <robert.nyholm@aland.net>
- Date.......: May 17, 2014
- Description: Library holding definitions, classes and other
-              functionality shared within the components of application Iris.
-*/
+ * File.......: IrisCore.cpp
+ * Author.....: Robert Nyholm <robert.nyholm@aland.net>
+ * Date.......: May 17, 2014
+ * Description: Library holding definitions, classes and other
+ *              functionality shared within the components of application Iris.
+ */
 #include <Arduino.h>
 #include <stdio.h>
 #include "IrisCore.h"

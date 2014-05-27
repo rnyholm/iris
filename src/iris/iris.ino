@@ -1,7 +1,10 @@
 #include "IrisCore.h"
 #include "OverrideHandler.h"
+#include "ServoHandler.h" 
 
 OverrideHandler overrideHandler(A0, 2);
+ServoHandler servoHandler(DAC0, A1);
+
 IrisCore irisCore;
 
 void setup()
@@ -17,9 +20,22 @@ void setup()
   irisCore.debug("Iris v0.9 beta started");
   irisCore.debug("****************************");
   irisCore.debug("");
+  servoHandler.moveToMax();
 }
 
 void loop()
 {
-  overrideHandler.getOverrideValue();
+  //int val = overrideHandler.getOverrideValue();
+  //servoHandler.move(val);
+  //servoHandler.getFeedback();
+  
+  if (servoHandler.getFeedback() == MAX_FEEDBACK)
+  {
+    servoHandler.moveToMin();
+  }
+  
+  if (servoHandler.getFeedback() == MIN_FEEDBACK)
+  {
+    servoHandler.moveToMax();
+  } 
 }
