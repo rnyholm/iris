@@ -38,7 +38,7 @@ void ServoHandler::move(int position)
     _lastValidPosition = position;
     analogWrite(_pinServo, position);
   } else {
-    _irisCore.debug(String("Wanted servo position is invalid, moving servo to last valid position: ") + _lastValidPosition);
+    _irisCore.debug(String("Wanted servo position is invalid, moving servo to last valid position: ") + String(_lastValidPosition));
     analogWrite(_pinServo, _lastValidPosition);
   }
 }

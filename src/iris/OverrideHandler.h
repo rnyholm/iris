@@ -12,7 +12,7 @@
 #include <Arduino.h>
 #include "IrisCore.h"
 
-#define RESOLUTION_READ 12       // Number of bits we want to use as resolution reading analog input
+#define RESOLUTION_READ 12 // Number of bits we want to use as resolution reading analog input
 
 class OverrideHandler {
   public:

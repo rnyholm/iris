@@ -10,8 +10,8 @@
 
 #include <Arduino.h>
 
-#define DEBUG           // Comment this out to disable debug printings throughout the application
-#define BAUD_RATE 9600  // Desired baud rate for serial communication
+#define DEBUG            // Comment this out to disable debug printings throughout the application
+#define BAUD_RATE 4800   // Desired baud rate for serial debug communication
 
 class IrisCore {
   public:

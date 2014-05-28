@@ -58,6 +58,7 @@ void IrisCore::initSerial()
   if (_serialInitialized == 0)
   {
     Serial.begin(BAUD_RATE);
-    _serialInitialized = 1;
+    _serialInitialized = 1;  
+    debug("Serial communication for debuggin has been successfully initialized...");
   }
 }

@@ -36,7 +36,7 @@ int OverrideHandler::getOverrideValue()
     return analogRead(_pinInput);
   }
   
-  _irisCore.debug("System not overrideable, returning -1");
+  _irisCore.debug("System not overrideable, returning -1...");
   return -1;
 }
 
