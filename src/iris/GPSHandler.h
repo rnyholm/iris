@@ -20,19 +20,19 @@ class GPSHandler {
     int hasFix();
     int getFix();
     int getFixQuality();
-    String getTime();
+    String getTimeUTC();
+    String getTimeEEST();
     String getDate();
     String getPosition();
     String getLongitude();
     String getLatitude();
-    String getSpeed();
-    String getHeading();
-    String getAltitude();
-    String getSatellites();
-    void toSerial();
+    double getSpeed();
+    double getHeading();
+    double getAltitude();
+    int getSatellites();
   private:
-    IrisCore _irisCore;
-    Adafruit_GPS _GPS;
+    IrisCore _iris;
+    Adafruit_GPS _gps;
     int _configured;
     void configureGPS();
 };

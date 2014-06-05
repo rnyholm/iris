@@ -34,11 +34,11 @@ void ServoHandler::move(int position)
 {
   if (MIN_POSITION <= position && position <= MAX_POSITION) 
   {
-    _irisCore.debug(String("Moving servo to position: ") + String(position));
+    _iris.debug("Moving servo to position: " + String(position));
     _lastValidPosition = position;
     analogWrite(_pinServo, position);
   } else {
-    _irisCore.debug(String("Wanted servo position is invalid, moving servo to last valid position: ") + String(_lastValidPosition));
+    _iris.debug("Wanted servo position is invalid, moving servo to last valid position: " + String(_lastValidPosition));
     analogWrite(_pinServo, _lastValidPosition);
   }
 }
@@ -48,7 +48,7 @@ void ServoHandler::move(int position)
  */
 void ServoHandler::moveToMax()
 {
-  _irisCore.debug("Moving servo to max position");
+  _iris.debug("Moving servo to max position");
   move(MAX_POSITION);
 }
 
@@ -57,7 +57,7 @@ void ServoHandler::moveToMax()
  */
 void ServoHandler::moveToCenter()
 {
-  _irisCore.debug("Moving servo to center position");
+  _iris.debug("Moving servo to center position");
   move(CENTER_POSITION);
 }
 
@@ -66,7 +66,7 @@ void ServoHandler::moveToCenter()
  */
 void ServoHandler::moveToMin()
 {
-  _irisCore.debug("Moving servo to min position");
+  _iris.debug("Moving servo to min position");
   move(MIN_POSITION);
 }
 
@@ -77,6 +77,6 @@ void ServoHandler::moveToMin()
 int ServoHandler::getFeedback()
 {
   int feedback = analogRead(_pinFeedback);
-  _irisCore.debug(String("Feedback: ") + feedback);
+  _iris.debug("Feedback: " + String(feedback));
   return feedback;
 }

@@ -36,7 +36,7 @@ class ServoHandler {
     void stop();
     int getFeedback();
   private:
-    IrisCore _irisCore;
+    IrisCore _iris;
     int _pinServo;
     int _pinFeedback;
     int _lastValidPosition;

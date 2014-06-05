@@ -20,7 +20,7 @@ class OverrideHandler {
     int getOverrideValue();
     int isOverrideable();
   private:
-    IrisCore _irisCore;
+    IrisCore _iris;
     int _pinInput;
     int _pinOverrideable; 
 };
