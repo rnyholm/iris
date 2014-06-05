@@ -10,8 +10,10 @@
 
 #include <Arduino.h>
 
-#define DEBUG            // Comment this out to disable debug printings throughout the application
-#define BAUD_RATE 4800   // Desired baud rate for serial debug communication
+#define DEBUG                // Comment this out to disable debug printings throughout the application
+#define BAUD_RATE 115200     // Desired baud rate for serial debug communication
+#define GPS_SERIAL Serial1   // DUE has 3 hardware USART so we can use one hardware serial for the GPS
+#define GPS_BAUD_RATE 9600   // Seems to be the standard for Adafruits MTK GPS's, could use 4800 also
 
 class IrisCore {
   public:
