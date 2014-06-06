@@ -109,7 +109,6 @@ void taskServo()
 {
   if (isManualMode())
   {
-    Serial.println(getJoystickValue());
     moveServo(getJoystickValue());
   }
 }
@@ -158,21 +157,21 @@ String getGPSTime()
     {
       time += "0";
     }
-    time += (String) gps.time.hour() + ":";
+    time += (String)gps.time.hour() + ":";
 
     // ...minutes...
     if (gps.time.minute() < 10)
     {
       time += "0";
     }
-    time += (String) gps.time.minute() + ":";
+    time += (String)gps.time.minute() + ":";
 
     // ...and seconds
     if (gps.time.second() < 10)
     {
       time += "0";
     }
-    time += (String) gps.time.minute();
+    time += (String)gps.time.minute();
 
     return time;
   }
@@ -217,7 +216,7 @@ String getGPSLatitude(boolean showCardinal)
     ftoa(latitude, gps.location.lat(), 6);
     if (showCardinal)
     {
-      return (String) latitude + "N";
+      return (String)latitude + "N";
     }
     return latitude;
   }
@@ -239,7 +238,7 @@ String getGPSLongitude(boolean showCardinal)
     ftoa(longitude, gps.location.lng(), 6);
     if (showCardinal)
     {
-      return (String) longitude + "E";
+      return (String)longitude + "E";
     }
     return longitude;
   }
@@ -255,7 +254,7 @@ String getGPSSpeed()
 {
   if (gps.speed.isValid())
   {
-    return (String) gps.speed.knots() + " knots";
+    return (String)gps.speed.knots() + " knots";
   }
   return "Invalid speed...";
 }
@@ -269,7 +268,7 @@ String getGPSCourse()
 {
   if (gps.speed.isValid())
   {
-    return (String) gps.course.deg() + "deg";
+    return (String)gps.course.deg() + "deg";
   }
   return "Invalid course...";
 }
@@ -283,7 +282,7 @@ String getGPSAltitude()
 {
   if (gps.speed.isValid())
   {
-    return (String) gps.altitude.meters() + "m";
+    return (String)gps.altitude.meters() + "m";
   }
   return "Invalid altitude...";
 }
@@ -296,7 +295,7 @@ String getGPSSatellites()
 {
   if (gps.speed.isValid())
   {
-    return (String) gps.satellites.value();
+    return (String)gps.satellites.value();
   }
   return "Invalid satellites...";
 }
@@ -341,13 +340,13 @@ void moveServo(int position)
 {
   if (MIN_POSITION <= position && position <= MAX_POSITION) 
   {
-    Serial.println("Moving servo to position: " + position);
+    Serial.println("Moving servo to position: " + (String)position);
     lastValidPosition = position;
     analogWrite(SERVO_PIN, position);
   } 
   else 
   {
-    Serial.println("Wanted servo position is invalid, moving servo to last valid position: " + lastValidPosition);
+    Serial.println("Wanted servo position is invalid, moving servo to last valid position: " + (String)lastValidPosition);
     analogWrite(SERVO_PIN, lastValidPosition);
   }
 }
@@ -385,7 +384,7 @@ void moveServoToMin()
 int getServoFeedback()
 {
   int feedback = analogRead(SERVO_FEEDBACK_PIN);
-  Serial.println("Feedback: " + feedback);
+  Serial.println("Feedback: " + (String)feedback);
   return feedback;
 }
 
