@@ -3,6 +3,10 @@
 #include "OverrideHandler.h"
 #include "ServoHandler.h"
 
+#define RESOLUTION_READ 12 // Number of bits we want to use as resolution reading analog input
+#define JOYSTICK_PIN A0
+#define MODE_SWITCH_PIN 2
+
 OverrideHandler override(A0, 2);
 ServoHandler servo(DAC0, A1);;
 TinyGPSPlus gps;
@@ -23,28 +27,24 @@ void setup()
   iris.debug("");
 
   GPS_SERIAL.begin(GPS_BAUD_RATE);
+  
+  // Set pins and A/D resolution
+  analogReadResolution(RESOLUTION_READ);
+  pinMode(MODE_SWITCH_PIN, INPUT);
 }
 
 void loop()
 {
+  if (isManualMode()) 
+  {
+    Serial.println(getJoystickValue());
+  }
   printGPSData();
-  smartDelay(2000);
 }
 
-/*
- * A clever little delay function, which will feed
- * our GPS object with data from GPS device while
- * delaying, nice;-)
- */
-static void smartDelay(unsigned long ms)
-{
-  unsigned long start = millis();
-  do
-  {
-    while (GPS_SERIAL.available() > 0)
-      gps.encode(GPS_SERIAL.read());
-  } while (millis() - start < ms);
-}
+/*************************************************
+ *               GPS functionality               *
+ *************************************************/
 
 /*
  * To print all GPS data thats interesting for this
@@ -60,6 +60,9 @@ void printGPSData()
   Serial.print(F("Course: ")); Serial.println(getGPSCourse());
   Serial.print(F("Altitude: ")); Serial.println(getGPSAltitude());
   Serial.print(F("Satellites: ")); Serial.println(getGPSSatellites());
+  
+  // TODO: Move away this code
+  smartDelay(2000);
 }
 
 /*
@@ -218,6 +221,54 @@ String getGPSSatellites()
     return (String) gps.satellites.value();
   }
   return "Invalid satellites...";
+}
+
+/*************************************************
+ *       Functionalities for manual input        *
+ *************************************************/
+
+/*
+ * To get the A/D value from JOYSTICK_PIN,
+ * in other words the joysticks position.
+ * This value will only be returned if the
+ * system is in manual mode, else -1 will
+ * be returned
+ */
+int getJoystickValue()
+{
+  if (isManualMode() == 1) {
+    return analogRead(JOYSTICK_PIN);
+  }
+  return -1;
+}
+
+/*
+ * To figure out if the system is in manual 
+ * operation mode. If so true will be returned
+ * else false.
+ */
+boolean isManualMode()
+{
+  return digitalRead(MODE_SWITCH_PIN) == HIGH ? true : false;
+}
+
+/*************************************************
+ *       Utilities and other functionality       *
+ *************************************************/
+ 
+/*
+ * A clever little delay function, which will feed
+ * our GPS object with data from GPS device while
+ * delaying, nice;-)
+ */
+static void smartDelay(unsigned long ms)
+{
+  unsigned long start = millis();
+  do
+  {
+    while (GPS_SERIAL.available() > 0)
+      gps.encode(GPS_SERIAL.read());
+  } while (millis() - start < ms);
 }
 
 /*
