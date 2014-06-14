@@ -45,6 +45,9 @@ unsigned long timerServo = 0;
 unsigned long timerGPS = 0;
 unsigned long timerTFT = 0;
 
+// It's nice to know if SD card has been initialized correctly
+boolean sdInitialized = false;
+
 // Must store last valid given servo position
 int lastValidPosition;
 
@@ -75,11 +78,6 @@ void setup()
   Serial.println(F("Pins and directions successfully set..."));
 
   Serial.println(F("Initializing TFT with resolution 800x480..."));
-  if (!tft.begin(RA8875_800x480))
-  {
-    Serial.println(F("TFT Not Found!"));
-    while (1);
-  }
   initTFT();
   Serial.println(F("TFT successfully initialized..."));
 
@@ -87,26 +85,23 @@ void setup()
   if (!SD.begin(SD_CS))
   {
     Serial.println(F("Failed to initialize SD card!"));
-    while (1);
+  } 
+  else 
+  {
+    sdInitialized = true;
+    Serial.println(F("SD card successfully initialized..."));
   }
-  Serial.println(F("SD card successfully initialized..."));
 
   Serial.println(F("Setting other parameters..."));
   // Set las valid position to center
   lastValidPosition = CENTER_POSITION;
   Serial.println(F("Parameters successfully set..."));
 
-  bmpDraw("iris.bmp", 234, 40);
-  bmpDraw("desc.bmp", 201, 169);
-  
-//  tft.textMode();
-//  tft.textSetCursor(235, 40);
-//  tft.textEnlarge(3);
-//  tft.textTransparent(RA8875_WHITE);
-//  tft.textWrite("Iris");
-
   Serial.println(F("Iris successfully started, happy autopiloting ;-)"));
   Serial.println(F("**************************************************\n"));
+  
+  // Now other stuff that's supposed to run only once executed
+  showSplash();
 }
 
 void loop()
@@ -449,16 +444,55 @@ int getServoFeedback()
 
 void initTFT()
 {
+  // Initialise the display using 'RA8875_800x480'
+  if (!tft.begin(RA8875_800x480))
+  {
+    Serial.println(F("TFT Not Found!"));
+    while (1);
+  }
   // Enable tft
   tft.displayOn(true);
   tft.GPIOX(true); // Enable TFT - display enable tied to GPIOX
 
   // Config pwm, mainly backlight is controlled with pwm
   tft.PWM1config(true, RA8875_PWM_CLK_DIV1024); // PWM output for backlight
-  tft.PWM1out(255);
+  tft.PWM1out(0);
+}
 
-  // background color to white
-  tft.fillScreen(ARDUINO_BLUE);
+void showSplash()
+{
+  // Ensure screen is "black" using PWM
+  tft.PWM1out(0);
+  
+  // If SD card has been initialized show splash
+  if (sdInitialized)
+  {
+    // Set correct background color
+    tft.fillScreen(ARDUINO_BLUE);
+    // Load bmp's
+    bmpDraw("iris.bmp", 234, 40);
+    bmpDraw("desc.bmp", 201, 169);
+    
+    // We want to dim up the screen using pwm, nice
+    for (int i = 1; i < 256; i++)
+    {
+      tft.PWM1out(i);
+      delay(10);
+    }
+    
+    // Show Splash for 3 seconds
+    delay(3000);
+    
+    // And now we dimm it down
+    for (int i = 255; i > -1; i--)
+    {
+      tft.PWM1out(i);
+      delay(10);
+    }
+  }
+  
+  // This point the tft should be "black" and empty, in other words prepared for the next step
+  tft.fillScreen(RA8875_BLACK);
 }
 
 /*************************************************
