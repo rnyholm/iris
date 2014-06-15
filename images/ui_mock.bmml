@@ -1,0 +1,130 @@
+<mockup version="1.0" skin="sketch" fontFace="Balsamiq Sans" measuredW="998" measuredH="501" mockupW="800" mockupH="480">
+  <controls>
+    <control controlID="0" controlTypeID="com.balsamiq.mockups::Canvas" x="198" y="21" w="800" h="480" measuredW="100" measuredH="70" zOrder="0" locked="false" isInGroup="-1"/>
+    <control controlID="1" controlTypeID="com.balsamiq.mockups::VRule" x="394" y="36" w="-1" h="450" measuredW="10" measuredH="100" zOrder="1" locked="false" isInGroup="-1"/>
+    <control controlID="2" controlTypeID="com.balsamiq.mockups::Label" x="213" y="36" w="-1" h="-1" measuredW="59" measuredH="21" zOrder="2" locked="false" isInGroup="-1">
+      <controlProperties>
+        <size>13</size>
+        <text>GPS%20Data</text>
+        <textOrientation>right</textOrientation>
+      </controlProperties>
+    </control>
+    <control controlID="3" controlTypeID="com.balsamiq.mockups::Label" x="213" y="57" w="131" h="-1" measuredW="126" measuredH="21" zOrder="3" locked="false" isInGroup="-1">
+      <controlProperties>
+        <text>Time%28UTC%29%3A%20hh%3Amm%3Ass</text>
+      </controlProperties>
+    </control>
+    <control controlID="4" controlTypeID="com.balsamiq.mockups::Label" x="213" y="78" w="-1" h="-1" measuredW="110" measuredH="21" zOrder="4" locked="false" isInGroup="-1">
+      <controlProperties>
+        <text>Date%3A%20dd/mm/yyyy</text>
+      </controlProperties>
+    </control>
+    <control controlID="5" controlTypeID="com.balsamiq.mockups::Label" x="213" y="99" w="110" h="-1" measuredW="97" measuredH="21" zOrder="5" locked="false" isInGroup="-1">
+      <controlProperties>
+        <text>Location%28lat%2Clon%29%3A</text>
+      </controlProperties>
+    </control>
+    <control controlID="6" controlTypeID="com.balsamiq.mockups::Label" x="213" y="120" w="-1" h="-1" measuredW="145" measuredH="21" zOrder="6" locked="false" isInGroup="-1">
+      <controlProperties>
+        <text>60.1574572N%2C19.94766E</text>
+      </controlProperties>
+    </control>
+    <control controlID="7" controlTypeID="com.balsamiq.mockups::Label" x="213" y="141" w="-1" h="-1" measuredW="102" measuredH="21" zOrder="7" locked="false" isInGroup="-1">
+      <controlProperties>
+        <text>Speed%3A%20%20x.x%20knots</text>
+      </controlProperties>
+    </control>
+    <control controlID="8" controlTypeID="com.balsamiq.mockups::Label" x="213" y="162" w="-1" h="-1" measuredW="107" measuredH="21" zOrder="8" locked="false" isInGroup="-1">
+      <controlProperties>
+        <text>Course%3A%20xxx.x%20deg</text>
+      </controlProperties>
+    </control>
+    <control controlID="9" controlTypeID="com.balsamiq.mockups::Label" x="213" y="183" w="-1" h="-1" measuredW="90" measuredH="21" zOrder="9" locked="false" isInGroup="-1">
+      <controlProperties>
+        <text>Altitude%3A%20xx.x%20m</text>
+      </controlProperties>
+    </control>
+    <control controlID="10" controlTypeID="com.balsamiq.mockups::Label" x="213" y="204" w="-1" h="-1" measuredW="69" measuredH="21" zOrder="10" locked="false" isInGroup="-1">
+      <controlProperties>
+        <text>Satellites%3A%20x</text>
+      </controlProperties>
+    </control>
+    <control controlID="11" controlTypeID="com.balsamiq.mockups::HRule" x="204" y="225" w="190" h="-1" measuredW="100" measuredH="10" zOrder="11" locked="false" isInGroup="-1"/>
+    <control controlID="12" controlTypeID="com.balsamiq.mockups::Label" x="213" y="235" w="140" h="-1" measuredW="119" measuredH="21" zOrder="12" locked="false" isInGroup="-1">
+      <controlProperties>
+        <text>Accelerometer%20Data</text>
+      </controlProperties>
+    </control>
+    <control controlID="13" controlTypeID="com.balsamiq.mockups::Label" x="213" y="251" w="-1" h="-1" measuredW="107" measuredH="21" zOrder="13" locked="false" isInGroup="-1">
+      <controlProperties>
+        <text>Course%3A%20xxx.x%20deg</text>
+      </controlProperties>
+    </control>
+    <control controlID="14" controlTypeID="com.balsamiq.mockups::HRule" x="404" y="62" w="579" h="-1" measuredW="100" measuredH="10" zOrder="14" locked="false" isInGroup="-1"/>
+    <control controlID="15" controlTypeID="com.balsamiq.mockups::Label" x="404" y="36" w="113" h="-1" measuredW="113" measuredH="21" zOrder="15" locked="false" isInGroup="-1">
+      <controlProperties>
+        <text>Mode%3A%20Auto/Manual</text>
+      </controlProperties>
+    </control>
+    <control controlID="16" controlTypeID="com.balsamiq.mockups::Label" x="477" y="99" w="-1" h="-1" measuredW="90" measuredH="21" zOrder="16" locked="false" isInGroup="-1">
+      <controlProperties>
+        <text>Desired%20course</text>
+      </controlProperties>
+    </control>
+    <control controlID="17" controlTypeID="com.balsamiq.mockups::Label" x="567" y="131" w="-1" h="-1" measuredW="141" measuredH="40" zOrder="17" locked="false" isInGroup="-1">
+      <controlProperties>
+        <size>32</size>
+        <text>xxx.x%20deg</text>
+      </controlProperties>
+    </control>
+    <control controlID="18" controlTypeID="com.balsamiq.mockups::Label" x="477" y="183" w="-1" h="-1" measuredW="82" measuredH="21" zOrder="18" locked="false" isInGroup="-1">
+      <controlProperties>
+        <text>Actual%20course</text>
+      </controlProperties>
+    </control>
+    <control controlID="19" controlTypeID="com.balsamiq.mockups::Label" x="567" y="210" w="-1" h="-1" measuredW="141" measuredH="40" zOrder="19" locked="false" isInGroup="-1">
+      <controlProperties>
+        <size>32</size>
+        <text>xxx.x%20deg</text>
+      </controlProperties>
+    </control>
+    <control controlID="20" controlTypeID="com.balsamiq.mockups::Canvas" x="803" y="333" w="180" h="153" measuredW="100" measuredH="70" zOrder="20" locked="false" isInGroup="-1"/>
+    <control controlID="21" controlTypeID="com.balsamiq.mockups::Label" x="817" y="347" w="-1" h="-1" measuredW="70" measuredH="21" zOrder="21" locked="false" isInGroup="-1">
+      <controlProperties>
+        <text>Debug%20data</text>
+      </controlProperties>
+    </control>
+    <control controlID="22" controlTypeID="com.balsamiq.mockups::VRule" x="517" y="32" w="-1" h="28" measuredW="10" measuredH="100" zOrder="22" locked="false" isInGroup="-1"/>
+    <control controlID="23" controlTypeID="com.balsamiq.mockups::Label" x="410" y="472" w="-1" h="-1" measuredW="67" measuredH="21" zOrder="23" locked="false" isInGroup="-1">
+      <controlProperties>
+        <text>Regulator%20-</text>
+      </controlProperties>
+    </control>
+    <control controlID="24" controlTypeID="com.balsamiq.mockups::Label" x="477" y="472" w="-1" h="-1" measuredW="135" measuredH="21" zOrder="24" locked="false" isInGroup="-1">
+      <controlProperties>
+        <text>P%20%3D%20x.x%2C%20I%20%3D%20x.x%2C%20D%20%3D%20x.x</text>
+      </controlProperties>
+    </control>
+    <control controlID="25" controlTypeID="com.balsamiq.mockups::Label" x="477" y="265" w="82" h="-1" measuredW="76" measuredH="21" zOrder="25" locked="false" isInGroup="-1">
+      <controlProperties>
+        <text>Course%20input</text>
+      </controlProperties>
+    </control>
+    <control controlID="28" controlTypeID="com.balsamiq.mockups::Label" x="567" y="286" w="-1" h="-1" measuredW="141" measuredH="40" zOrder="26" locked="false" isInGroup="-1">
+      <controlProperties>
+        <size>32</size>
+        <text>xxx.x%20deg</text>
+      </controlProperties>
+    </control>
+    <control controlID="29" controlTypeID="com.balsamiq.mockups::Label" x="204" y="472" w="-1" h="-1" measuredW="179" measuredH="21" zOrder="27" locked="false" isInGroup="-1">
+      <controlProperties>
+        <text>Iris%20-%20A%20tiny%20autopilot.%20v0.8beta</text>
+      </controlProperties>
+    </control>
+    <control controlID="30" controlTypeID="com.balsamiq.mockups::Label" x="537" y="38" w="-1" h="-1" measuredW="270" measuredH="21" zOrder="28" locked="false" isInGroup="-1">
+      <controlProperties>
+        <text>Navigation%20source%20in%20use%3A%20GPS/Accelerometer</text>
+      </controlProperties>
+    </control>
+  </controls>
+</mockup>
