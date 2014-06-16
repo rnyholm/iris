@@ -384,7 +384,6 @@ boolean isGPSValidForNavigation()
     {
       return true;
     }
-    return false;
   }
   return false;
 }
