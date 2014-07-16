@@ -13,6 +13,8 @@ In short this is a kickass project with many interesting parts.
 [Pololu JRK 12v12](http://www.pololu.com/product/1393)  
 [Adafruit Ultimate GPS Breakout](http://www.adafruit.com/products/746)  
 [LA-DW-12V 350N 250mm stroke](http://www.actuatorlinear.com/index.php?_m=mod_product&_a=view&p_id=238)  
+[Rotary Encoder](https://www.sparkfun.com/products/10982)  
+[7" color tft lcd with RA8875 controller board](http://www.buydisplay.com/default/7-inch-lcd-module-capacitive-touch-screen-panel-i2c-spi-serial)  
 More is still to come
 
 ###At last
