@@ -37,7 +37,8 @@
 
 // Colors (RGB565)
 #define ARDUINO_BLUE 0x04B3
-#define IRIS_GRAY 0xC618
+#define IRIS_GRAY 0x4A69
+#define IRIS_BLUE 0x35BC
 
 // Text stuff
 #define NORMAL_LINE_SPACE 16
@@ -547,7 +548,7 @@ void showSplash()
   Serial.println(F("Preparing for data rendering, setting background color to black..."));
 
   // This point the tft should be "black" and empty, in other words prepared for the next step
-  tft.fillScreen(RA8875_BLACK);
+  tft.fillScreen(IRIS_GRAY);
 }
 
 /*
@@ -558,9 +559,9 @@ void showSplash()
 void drawGui()
 {
   tft.graphicsMode();
-  drawDoubleVLine(200, 5, 200, 475, ARDUINO_BLUE);
-  drawDoubleHLine(5, 168, 195, 168, ARDUINO_BLUE);
-  drawDoubleHLine(5, 277, 195, 277, ARDUINO_BLUE);
+  drawDoubleVLine(200, 5, 200, 475, IRIS_BLUE);
+  drawDoubleHLine(5, 168, 195, 168, IRIS_BLUE);
+  drawDoubleHLine(5, 277, 195, 277, IRIS_BLUE);
 
   tft.textMode();
   tft.textTransparent(RA8875_WHITE);
@@ -578,7 +579,7 @@ void drawGui()
 void drawNavMode()
 {
   tft.textMode();
-  tft.textColor(RA8875_WHITE, RA8875_BLACK);
+  tft.textColor(RA8875_WHITE, IRIS_GRAY);
   tft.textSetCursor(206, LARGER_LINE_SPACE);
   tft.textEnlarge(0);
 
@@ -595,7 +596,7 @@ void drawNavMode()
 void drawNavSource()
 {
   tft.textMode();
-  tft.textColor(RA8875_WHITE, RA8875_BLACK);
+  tft.textColor(RA8875_WHITE, IRIS_GRAY);
   tft.textSetCursor(400, LARGER_LINE_SPACE);
   tft.textEnlarge(0);
 
@@ -612,7 +613,7 @@ void drawNavSource()
 void drawGPSData()
 {
   tft.textMode();
-  tft.textColor(RA8875_WHITE, RA8875_BLACK);
+  tft.textColor(RA8875_WHITE, IRIS_GRAY);
   tft.textSetCursor(5, 0);
   tft.textEnlarge(1);
 
@@ -632,7 +633,7 @@ void drawGPSData()
   tft.textSetCursor(5, LARGER_LINE_SPACE + NORMAL_LINE_SPACE * 5);
   tft.textWrite(("Course:     " + getGPSCourse()).c_str());
   tft.textSetCursor(5, LARGER_LINE_SPACE + NORMAL_LINE_SPACE * 6);
-  tft.textWrite(("Alitude:    " + getGPSAltitude()).c_str());
+  tft.textWrite(("Altitude:   " + getGPSAltitude()).c_str());
   tft.textSetCursor(5, LARGER_LINE_SPACE + NORMAL_LINE_SPACE * 7);
   tft.textWrite(("Satellites: " + getGPSSatellites() + "  ").c_str());
 }
@@ -640,7 +641,7 @@ void drawGPSData()
 void drawCompassData()
 {
   tft.textMode();
-  tft.textColor(RA8875_WHITE, RA8875_BLACK);
+  tft.textColor(RA8875_WHITE, IRIS_GRAY);
   tft.textSetCursor(5, 171);
   tft.textEnlarge(1);
 
@@ -669,7 +670,7 @@ void drawControllerData()
   dtostrf(Kd, 2, 3, KdStr);
 
   tft.textMode();
-  tft.textColor(RA8875_WHITE, RA8875_BLACK);
+  tft.textColor(RA8875_WHITE, IRIS_GRAY);
   tft.textSetCursor(5, 280);
   tft.textEnlarge(1);
 
@@ -681,33 +682,6 @@ void drawControllerData()
   tft.textWrite(("I = " + (String)KiStr).c_str());
   tft.textSetCursor(5, LARGER_LINE_SPACE + NORMAL_LINE_SPACE * 2 + 280);
   tft.textWrite(("D = " + (String)KdStr).c_str());
-}
-
-void drawText()
-{
-  tft.PWM1out(255);
-  tft.textMode();
-
-  tft.textTransparent(RA8875_WHITE);
-  tft.textSetCursor(5, 0);
-  tft.textEnlarge(0);
-  tft.textWrite("Våöäåvdfkvnoavkpav*!--<><</)0987, consectetur adipisicing elit..."); // Standard
-  tft.textSetCursor(5, 17);
-  tft.fontArial();
-  tft.textWrite("Lorem ipsum dolor sit amet, consectetur adipisicing elit...");
-  tft.textSetCursor(5, 34);
-  tft.fontRoman();
-  tft.textWrite("Lorem ipsum dolor sit amet, consectetur adipisicing elit...");
-  tft.textSetCursor(0, 51);
-  tft.fontStandard();
-  tft.textEnlarge(1);
-  tft.textWrite("Lorem ipsum dolor sit amet, consectetur adipisicing elit..."); // Standard
-  tft.textSetCursor(0, 85);
-  tft.textEnlarge(2);
-  tft.textWrite("Lorem ipsum dolor sit amet, consectetur adipisicing elit..."); // Standard
-  tft.textSetCursor(0, 130);
-  tft.textEnlarge(3);
-  tft.textWrite("Lorem ipsum dolor sit amet, consectetur adipisicing elit..."); // Standard
 }
 
 /*
@@ -752,7 +726,7 @@ void fadeOutTFT(int steps, int del)
 void drawDoubleVLine(int16_t x0, int16_t y0, int16_t x1, int16_t y1, uint16_t color)
 {
   tft.drawLine(x0, y0, x1, y1, color);
-  tft.drawLine(x0 + 1, y0, x1 + 1, y1, color);
+  //tft.drawLine(x0 + 1, y0, x1 + 1, y1, color);
 }
 
 /*
@@ -763,7 +737,7 @@ void drawDoubleVLine(int16_t x0, int16_t y0, int16_t x1, int16_t y1, uint16_t co
 void drawDoubleHLine(int16_t x0, int16_t y0, int16_t x1, int16_t y1, uint16_t color)
 {
   tft.drawLine(x0, y0, x1, y1, color);
-  tft.drawLine(x0, y0 + 1, x1, y1 + 1, color);
+  //tft.drawLine(x0, y0 + 1, x1, y1 + 1, color);
 }
 
 /*************************************************
