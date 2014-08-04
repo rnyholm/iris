@@ -414,7 +414,7 @@ int getJoystickValue()
  */
 boolean isManualMode()
 {
-  return digitalRead(MODE_SWITCH_PIN) == HIGH ? true : false;
+  return digitalRead(MODE_SWITCH_PIN) == LOW ? true : false;
 }
 
 /*************************************************
@@ -543,6 +543,12 @@ void showSplash()
     // And now we fade it down
     fadeOutTFT(1, 10);
   }
+  
+  Serial.println(F("Disable SPI for SD card reader..."));
+  // Ensure that we disable SPI for the SD card reader
+  SPI.end(SD_CS);
+  SPI.begin();
+  
   Serial.println(F("Preparing for data rendering, setting background color to black..."));
 
   // This point the tft should be "black" and empty, in other words prepared for the next step
