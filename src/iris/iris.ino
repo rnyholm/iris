@@ -30,6 +30,7 @@
 #define TFT_RESET 9
 #define SD_CS 4
 #define SHOW_SPLASH_PIN 5
+#define USE_GPS_PIN 8
 
 // Different baud rates and serial stuff
 #define BAUD_RATE 115200   // Desired baud rate for serial debug communication
@@ -376,11 +377,14 @@ String getGPSSatellites()
  * in order to establish a good position, a 
  * minimum of 3 satellites are needed for this.
  * True will be returned if GPS got 3 or more satellites
- * else false is returned.
+ * else false is returned. 
+ * The state of USE_GPS_PIN will also be checked, if it's
+ * LOW than false is returned else true is returned, this state
+ * can be changed with a DIP switch.
  */
 boolean isGPSValidForNavigation()
 {
-  if (gps.speed.isValid())
+  if ((digitalRead(USE_GPS_PIN) == HIGH) && gps.speed.isValid())
   {
     if (gps.satellites.value() > 2)
     {
