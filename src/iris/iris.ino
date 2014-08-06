@@ -29,6 +29,7 @@
 #define TFT_CS 10
 #define TFT_RESET 9
 #define SD_CS 4
+#define SHOW_SPLASH_PIN 5
 
 // Different baud rates and serial stuff
 #define BAUD_RATE 115200   // Desired baud rate for serial debug communication
@@ -85,6 +86,7 @@ void setup()
   Serial.println(F("Setting pins and their directions..."));
   // Setting pins and directions
   pinMode(MODE_SWITCH_PIN, INPUT);
+  pinMode(SHOW_SPLASH_PIN, INPUT);
   Serial.println(F("Pins and directions successfully set..."));
 
   Serial.println(F("Initializing TFT with resolution 800x480..."));
@@ -521,10 +523,10 @@ void showSplash()
   // Ensure screen is "black" using PWM
   tft.PWM1out(0);
 
-  // If SD card has been initialized show splash
-  if (sdInitialized)
+  // If SD card has been initialized and pin showing splash is set high then show splash
+  if (sdInitialized && (digitalRead(SHOW_SPLASH_PIN) == HIGH))
   {
-    Serial.println(F("SD card initialized, setting background color and loading splash images..."));
+    Serial.println(F("SD card initialized and DIP switch is set to show splash, setting background color and loading splash images..."));
     // Set correct background color
     tft.fillScreen(ARDUINO_BLUE);
 
