@@ -31,6 +31,13 @@
 #define SD_CS 4
 #define SHOW_SPLASH_PIN 5
 #define USE_GPS_PIN 8
+#define ENCODER_PIN_A 11
+#define ENCODER_PIN_B 12
+
+// Navigation defines
+#define DEGREE_LIMIT_MAX 360
+#define DEGREE_LIMIT_MIN 1
+#define DEGREE_STEP 0.5
 
 // Different baud rates and serial stuff
 #define BAUD_RATE 115200   // Desired baud rate for serial debug communication
@@ -51,6 +58,14 @@
 unsigned long timerServo = 0;
 unsigned long timerGPS = 0;
 unsigned long timerTFT = 0;
+
+// HElper variables for rotary encoder
+int encoderSignalA = LOW;
+int encoderSignalB = HIGH;
+
+// Different degrees
+double degreesEncoder = DEGREE_STEP;
+double degreesSp = 0.0;
 
 // Controller(PID) parameters
 double Kp = 0.1;
@@ -90,6 +105,12 @@ void setup()
   pinMode(SHOW_SPLASH_PIN, INPUT);
   pinMode(USE_GPS_PIN, INPUT);
   Serial.println(F("Pins and directions successfully set..."));
+  
+  Serial.println(F("Attaching interrupts..."));
+  // Attaching interrupts
+  attachInterrupt(ENCODER_PIN_A, encoderRiseA, RISING);
+  attachInterrupt(ENCODER_PIN_B, encoderRiseB, RISING);
+  Serial.println(F("Interrupts successfully attached..."));
 
   Serial.println(F("Initializing TFT with resolution 800x480..."));
   initTFT();
@@ -184,6 +205,149 @@ void taskTFT()
   drawGPSData();
   drawCompassData();
   drawControllerData();
+}
+
+/*************************************************
+ *           Interrupt Service Routines          *
+ *************************************************/
+ 
+/*
+ * Handles the rise of rotary encoders A signal. 
+ * Adds or subtract to/from degrees variable in order
+ * to keep track of current degree. If neccessary the
+ * number of degrees will be adjusted to either 360 or 1.
+ * TFT will also be updated according to the changes.
+ */
+void encoderRiseA()
+{
+  // Detach the interrupt, set another later
+  detachInterrupt(ENCODER_PIN_A);
+  encoderSignalA = HIGH;
+
+  // Moving forward
+  if (encoderSignalB == HIGH)
+  {
+    degreesEncoder = degreesEncoder + DEGREE_STEP;
+  }
+  // Moving reverse
+  else if (encoderSignalB == LOW)
+  {
+    degreesEncoder = degreesEncoder - DEGREE_STEP;
+  }
+  
+  // Correct the number of degrees if it's beyond limits
+  if (degreesEncoder > DEGREE_LIMIT_MAX) 
+  {
+    degreesEncoder = DEGREE_LIMIT_MIN;
+  }
+  else if (degreesEncoder < DEGREE_LIMIT_MIN)
+  {
+    degreesEncoder = DEGREE_LIMIT_MAX;
+  }
+  
+  Serial.println(degreesEncoder);
+  // Remember to attach interrupt with a new ISR
+  attachInterrupt(ENCODER_PIN_A, encoderFallA, FALLING);
+}
+
+/*
+ * Handles the fall of rotary encoders A signal. 
+ * Adds or subtract to/from degrees variable in order
+ * to keep track of current degree. If neccessary the
+ * number of degrees will be adjusted to either 360 or 1.
+ * TFT will also be updated according to the changes.
+ */
+void encoderFallA() {
+  detachInterrupt(ENCODER_PIN_A);
+  encoderSignalA = LOW;
+
+  if (encoderSignalB == HIGH)
+  {
+    degreesEncoder = degreesEncoder + DEGREE_STEP;
+  }
+  else if (encoderSignalB == LOW)
+  {
+    degreesEncoder = degreesEncoder - DEGREE_STEP;
+  }
+  
+  if (degreesEncoder > DEGREE_LIMIT_MAX) 
+  {
+    degreesEncoder = DEGREE_LIMIT_MIN;
+  }
+  else if (degreesEncoder < DEGREE_LIMIT_MIN)
+  {
+    degreesEncoder = DEGREE_LIMIT_MAX;
+  }
+  
+  Serial.println(degreesEncoder);
+  attachInterrupt(ENCODER_PIN_A, encoderRiseA, RISING);
+}
+
+/*
+ * Handles the rise of rotary encoders B signal. 
+ * Adds or subtract to/from degrees variable in order
+ * to keep track of current degree. If neccessary the
+ * number of degrees will be adjusted to either 360 or 1.
+ * TFT will also be updated according to the changes.
+ */
+void encoderRiseB() {
+  detachInterrupt(ENCODER_PIN_B);
+  encoderSignalB = HIGH;
+
+  if (encoderSignalA == HIGH)
+  {
+    degreesEncoder = degreesEncoder + DEGREE_STEP;
+  }  
+  else if (encoderSignalA == LOW)
+  {
+    degreesEncoder = degreesEncoder - DEGREE_STEP;
+  }
+  
+  if (degreesEncoder > DEGREE_LIMIT_MAX) 
+  {
+    degreesEncoder = DEGREE_LIMIT_MIN;
+  }
+  else if (degreesEncoder < DEGREE_LIMIT_MIN)
+  {
+    degreesEncoder = DEGREE_LIMIT_MAX;
+  }
+  
+  Serial.println(degreesEncoder);
+  attachInterrupt(ENCODER_PIN_B, encoderFallB, FALLING);
+}
+
+/*
+ * Handles the fall of rotary encoders B signal. 
+ * Adds or subtract to/from degrees variable in order
+ * to keep track of current degree. If neccessary the
+ * number of degrees will be adjusted to either 360 or 1.
+ * TFT will also be updated according to the changes.
+ */
+void encoderFallB()
+{
+  detachInterrupt(ENCODER_PIN_B);
+  encoderSignalB = LOW;
+
+  if (encoderSignalA == LOW)
+  {
+    degreesEncoder = degreesEncoder + DEGREE_STEP;
+  }  
+  else if (encoderSignalA == HIGH)
+  {
+    degreesEncoder = degreesEncoder - DEGREE_STEP;
+  }
+  
+  if (degreesEncoder > DEGREE_LIMIT_MAX) 
+  {
+    degreesEncoder = DEGREE_LIMIT_MIN;
+  }
+  else if (degreesEncoder < DEGREE_LIMIT_MIN)
+  {
+    degreesEncoder = DEGREE_LIMIT_MAX;
+  }
+  
+  Serial.println(degreesEncoder);
+  attachInterrupt(ENCODER_PIN_B, encoderRiseB, RISING);
 }
 
 /*************************************************
