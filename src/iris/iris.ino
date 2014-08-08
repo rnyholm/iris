@@ -88,6 +88,7 @@ void setup()
   // Setting pins and directions
   pinMode(MODE_SWITCH_PIN, INPUT);
   pinMode(SHOW_SPLASH_PIN, INPUT);
+  pinMode(USE_GPS_PIN, INPUT);
   Serial.println(F("Pins and directions successfully set..."));
 
   Serial.println(F("Initializing TFT with resolution 800x480..."));
