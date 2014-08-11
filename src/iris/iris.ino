@@ -8,45 +8,46 @@
  * It's desired to fire the different tasks with specific intervals.
  * Ex. Fire GPS task with 2000ms intervals and so on...
  */
-#define GPS_TASK_INTERVAL 2000
+#define GPS_TASK_INTERVAL   2000
 #define SERVO_TASK_INTERVAL 50
-#define TFT_TASK_INTERVAL 1000
+#define TFT_TASK_INTERVAL   1000
 
 // Servo positions (approx analog values)
-#define MAX_POSITION 4040    // Maximum position
+#define MAX_POSITION    4040 // Maximum position
 #define CENTER_POSITION 2020 // Center position
-#define MIN_POSITION 0	     // Minimum position
+#define MIN_POSITION    0    // Minimum position
 
 // Different A/D resolutions
-#define RESOLUTION_READ 12  // Number of bits we want to use as resolution reading analog input
+#define RESOLUTION_READ  12 // Number of bits we want to use as resolution reading analog input
 #define RESOLUTION_WRITE 12 // Number of bits we want to use as resolution writing analog output
 
 // Different pins
-#define JOYSTICK_PIN A0
-#define SERVO_PIN DAC0
+#define JOYSTICK_PIN       A0
+#define SERVO_PIN          DAC0
 #define SERVO_FEEDBACK_PIN A1
-#define MODE_SWITCH_PIN 2
-#define TFT_CS 10
-#define TFT_RESET 9
-#define SD_CS 4
-#define SHOW_SPLASH_PIN 5
-#define USE_GPS_PIN 8
-#define ENCODER_PIN_A 11
-#define ENCODER_PIN_B 12
+#define MODE_SWITCH_PIN    2
+#define TFT_CS             10
+#define TFT_RESET          9
+#define SD_CS              4
+#define SHOW_SPLASH_PIN    5
+#define USE_GPS_PIN        8
+#define ENCODER_PIN_A      11
+#define ENCODER_PIN_B      12
+#define SET_COURSE_PIN     3
 
 // Navigation defines
 #define DEGREE_LIMIT_MAX 360
 #define DEGREE_LIMIT_MIN 1
-#define DEGREE_STEP 0.5
+#define DEGREE_STEP      0.5
 
 // Different baud rates and serial stuff
-#define BAUD_RATE 115200   // Desired baud rate for serial debug communication
-#define GPS_BAUD_RATE 9600 // Seems to be the standard for Adafruits MTK GPS's, could use 4800 also
-#define GPS_SERIAL Serial1 // DUE has 3 hardware USART so we can use one hardware serial for the GPS
+#define BAUD_RATE     115200  // Desired baud rate for serial debug communication
+#define GPS_BAUD_RATE 9600    // Seems to be the standard for Adafruits MTK GPS's, could use 4800 also
+#define GPS_SERIAL    Serial1 // DUE has 3 hardware USART so we can use one hardware serial for the GPS
 
-// Colors (RGB565)
+// Colors in RGB565 format
 #define ARDUINO_BLUE 0x04B3
-#define IRIS_GRAY 0xC618
+#define IRIS_GRAY    0xC618
 
 // Text stuff
 #define NORMAL_LINE_SPACE 16
@@ -71,6 +72,7 @@ double degreesSp = 0.0;
 double Kp = 0.1;
 double Ki = 0.01;
 double Kd = 0.005;
+double sp = 0.0;
 
 // It's nice to know if SD card has been initialized correctly
 boolean sdInitialized = false;
@@ -105,9 +107,10 @@ void setup()
   pinMode(SHOW_SPLASH_PIN, INPUT);
   pinMode(USE_GPS_PIN, INPUT);
   Serial.println(F("Pins and directions successfully set..."));
-  
+
   Serial.println(F("Attaching interrupts..."));
   // Attaching interrupts
+  attachInterrupt(SET_COURSE_PIN, setDesiredCourse, RISING);
   attachInterrupt(ENCODER_PIN_A, encoderRiseA, RISING);
   attachInterrupt(ENCODER_PIN_B, encoderRiseB, RISING);
   Serial.println(F("Interrupts successfully attached..."));
@@ -210,9 +213,19 @@ void taskTFT()
 /*************************************************
  *           Interrupt Service Routines          *
  *************************************************/
- 
+
 /*
- * Handles the rise of rotary encoders A signal. 
+ * To set the desired course, or more correctly set point(sp), 
+ * to current value of encoder.
+ */
+void setDesiredCourse()
+{
+  Serial.print(F("Setting sp to: ")); Serial.println(degreesEncoder);
+  sp = degreesEncoder;
+}
+
+/*
+ * Handles the rise of rotary encoders A signal.
  * Adds or subtract to/from degrees variable in order
  * to keep track of current degree. If neccessary the
  * number of degrees will be adjusted to either 360 or 1.
@@ -234,9 +247,9 @@ void encoderRiseA()
   {
     degreesEncoder = degreesEncoder - DEGREE_STEP;
   }
-  
+
   // Correct the number of degrees if it's beyond limits
-  if (degreesEncoder > DEGREE_LIMIT_MAX) 
+  if (degreesEncoder > DEGREE_LIMIT_MAX)
   {
     degreesEncoder = DEGREE_LIMIT_MIN;
   }
@@ -244,14 +257,14 @@ void encoderRiseA()
   {
     degreesEncoder = DEGREE_LIMIT_MAX;
   }
-  
+
   Serial.println(degreesEncoder);
   // Remember to attach interrupt with a new ISR
   attachInterrupt(ENCODER_PIN_A, encoderFallA, FALLING);
 }
 
 /*
- * Handles the fall of rotary encoders A signal. 
+ * Handles the fall of rotary encoders A signal.
  * Adds or subtract to/from degrees variable in order
  * to keep track of current degree. If neccessary the
  * number of degrees will be adjusted to either 360 or 1.
@@ -269,8 +282,8 @@ void encoderFallA() {
   {
     degreesEncoder = degreesEncoder - DEGREE_STEP;
   }
-  
-  if (degreesEncoder > DEGREE_LIMIT_MAX) 
+
+  if (degreesEncoder > DEGREE_LIMIT_MAX)
   {
     degreesEncoder = DEGREE_LIMIT_MIN;
   }
@@ -278,13 +291,13 @@ void encoderFallA() {
   {
     degreesEncoder = DEGREE_LIMIT_MAX;
   }
-  
+
   Serial.println(degreesEncoder);
   attachInterrupt(ENCODER_PIN_A, encoderRiseA, RISING);
 }
 
 /*
- * Handles the rise of rotary encoders B signal. 
+ * Handles the rise of rotary encoders B signal.
  * Adds or subtract to/from degrees variable in order
  * to keep track of current degree. If neccessary the
  * number of degrees will be adjusted to either 360 or 1.
@@ -297,13 +310,13 @@ void encoderRiseB() {
   if (encoderSignalA == HIGH)
   {
     degreesEncoder = degreesEncoder + DEGREE_STEP;
-  }  
+  }
   else if (encoderSignalA == LOW)
   {
     degreesEncoder = degreesEncoder - DEGREE_STEP;
   }
-  
-  if (degreesEncoder > DEGREE_LIMIT_MAX) 
+
+  if (degreesEncoder > DEGREE_LIMIT_MAX)
   {
     degreesEncoder = DEGREE_LIMIT_MIN;
   }
@@ -311,13 +324,13 @@ void encoderRiseB() {
   {
     degreesEncoder = DEGREE_LIMIT_MAX;
   }
-  
+
   Serial.println(degreesEncoder);
   attachInterrupt(ENCODER_PIN_B, encoderFallB, FALLING);
 }
 
 /*
- * Handles the fall of rotary encoders B signal. 
+ * Handles the fall of rotary encoders B signal.
  * Adds or subtract to/from degrees variable in order
  * to keep track of current degree. If neccessary the
  * number of degrees will be adjusted to either 360 or 1.
@@ -331,13 +344,13 @@ void encoderFallB()
   if (encoderSignalA == LOW)
   {
     degreesEncoder = degreesEncoder + DEGREE_STEP;
-  }  
+  }
   else if (encoderSignalA == HIGH)
   {
     degreesEncoder = degreesEncoder - DEGREE_STEP;
   }
-  
-  if (degreesEncoder > DEGREE_LIMIT_MAX) 
+
+  if (degreesEncoder > DEGREE_LIMIT_MAX)
   {
     degreesEncoder = DEGREE_LIMIT_MIN;
   }
@@ -345,7 +358,7 @@ void encoderFallB()
   {
     degreesEncoder = DEGREE_LIMIT_MAX;
   }
-  
+
   Serial.println(degreesEncoder);
   attachInterrupt(ENCODER_PIN_B, encoderRiseB, RISING);
 }
@@ -539,10 +552,10 @@ String getGPSSatellites()
 
 /*
  * To figure out if the GPS got enough satellites
- * in order to establish a good position, a 
+ * in order to establish a good position, a
  * minimum of 3 satellites are needed for this.
  * True will be returned if GPS got 3 or more satellites
- * else false is returned. 
+ * else false is returned.
  * The state of USE_GPS_PIN will also be checked, if it's
  * LOW than false is returned else true is returned, this state
  * can be changed with a DIP switch.
@@ -714,12 +727,12 @@ void showSplash()
     // And now we fade it down
     fadeOutTFT(1, 10);
   }
-  
+
   Serial.println(F("Disable SPI for SD card reader..."));
   // Ensure that we disable SPI for the SD card reader
   SPI.end(SD_CS);
   SPI.begin();
-  
+
   Serial.println(F("Preparing for data rendering, setting background color to black..."));
 
   // This point the tft should be "black" and empty, in other words prepared for the next step
@@ -743,7 +756,7 @@ void drawGui()
   tft.textEnlarge(1);
   tft.textSetCursor(206, 0);
   tft.textWrite("Navigation");
-  
+
   tft.textSetCursor(5, tft.height() - NORMAL_LINE_SPACE - 3);
   tft.textEnlarge(0);
   tft.textWrite("Iris - v0.8beta");
