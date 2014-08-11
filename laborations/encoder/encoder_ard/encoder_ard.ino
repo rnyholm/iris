@@ -31,7 +31,7 @@ void encoderRiseA()
   {
     pulses = pulses - 0.5;
   }
-  
+
   Serial.println(pulses);
   // Remember to attach interrupt with a new ISR
   attachInterrupt(11, encoderFallA, FALLING);
@@ -49,7 +49,7 @@ void encoderFallA() {
   {
     pulses = pulses - 0.5;
   }
-  
+
   Serial.println(pulses);
   attachInterrupt(11, encoderRiseA, RISING);
 }
@@ -61,12 +61,12 @@ void encoderRiseB() {
   if (encoderSignalA == 1)
   {
     pulses = pulses + 0.5;
-  }  
+  }
   if (encoderSignalA == 0)
   {
     pulses = pulses - 0.5;
   }
-  
+
   Serial.println(pulses);
   attachInterrupt(12, encoderFallB, FALLING);
 }
@@ -79,12 +79,12 @@ void encoderFallB()
   if (encoderSignalA == 0)
   {
     pulses = pulses + 0.5;
-  }  
+  }
   if (encoderSignalA == 1)
   {
     pulses = pulses - 0.5;
   }
-  
+
   Serial.println(pulses);
   attachInterrupt(12, encoderRiseB, RISING);
 }
